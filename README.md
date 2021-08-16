@@ -1,0 +1,2 @@
+# qt-c
+study
