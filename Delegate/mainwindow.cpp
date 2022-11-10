@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     SexDelegate* m = new SexDelegate(this);
 
     ui->tableView->setItemDelegateForColumn(2,m);
+    Checkbox * s = new Checkbox(this);
+    ui->tableView->setItemDelegateForColumn(3, s);
 }
 
 MainWindow::~MainWindow()
