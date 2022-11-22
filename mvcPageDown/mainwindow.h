@@ -6,6 +6,9 @@
 #include <QStyledItemDelegate>
 #include <QItemDelegate>
 #include <vector>
+#include "carraymodel.h"
+#include "delegate.h"
+
 
 class QTableView;
 class QSqlQueryModel;
@@ -13,70 +16,7 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class CArrayModel : public QAbstractTableModel
-{
-public:
-    CArrayModel(QObject *parent = 0);
-    //设置总数据
-    void SetArrayData(const std::map<int, QString> &map);
 
-    //获得总数据
-    std::map<int, QString> GetArrayData();
-
-    //设置页数据
-    void SetCurPage(int iPage);
-    //获得当前页
-    int GetCurPage();
-    //获得总页数
-    int GetPageCount();
-    //设置每页数据条数
-    void SetPageSize(int iPageSize);
-    //获得每页数据条数
-    int GetPageSize();
-
-    //总行数
-    int RowCount() const;
-public:
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value,int role = Qt::EditRole);
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    void refrushModel();
-private:
-    QString currencyAt(int offset) const;
-    std::map<int, QString> m_mpData;    //总数据
-    std::map<int, QString> m_mpPageData;//每页数据
-    int m_iPageSize;                    //每页数据条数
-    int m_iCurPage;                     //当前页
-};
-
-//只读委托(给索引列使用)
-class ReadOnlyDelegate : public QItemDelegate
-{
-    Q_OBJECT
-public:
-    ReadOnlyDelegate(QObject *parent = 0): QItemDelegate(parent) { }
-    QWidget *createEditor(QWidget*parent, const QStyleOptionViewItem &option,
-        const QModelIndex &index) const
-    {
-        return NULL;
-    }
-};
-
-//值列
-class ValueDelegate : public QItemDelegate
-{
-    Q_OBJECT
-public:
-    ValueDelegate(QObject *parent = 0): QItemDelegate(parent) { }
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,  const QModelIndex &index) const;
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const;
-    void setModelData(QWidget *editor, QAbstractItemModel *model,  const QModelIndex &index) const;
-    void updateEditorGeometry(QWidget *editor,  const QStyleOptionViewItem &option, const QModelIndex &index) const;
-};
 
 //自定义窗口类
 class MyMainWindow : public QWidget
